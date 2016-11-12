@@ -1,0 +1,32 @@
+body {
+    background-image: url(../img/bg1.jpg);
+}
+
+.col {
+  padding:7px 7px;
+}
+
+ul {
+    padding-left: 0px;
+}
+
+#dog {
+    margin: 5px auto;
+}
+
+#dog_list {
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.list {
+    list-style: none;
+    display: inline-block;
+    padding: 5px 5px;
+    margin: 2px 5px;
+    border: 1px solid #555;
+}
+
+#dog_count {
+    padding: 10px 0;
+}
