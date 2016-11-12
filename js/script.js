@@ -2,10 +2,11 @@
 
 var model = {
     currentDog: null,
+    adminShow: false,
     dogs: [
         {
             clickCount : 0,
-            name : 'Medor',
+            name : 'Beige',
             img : 'img/dog1.jpg',
             id : '1'
         },
@@ -45,6 +46,8 @@ var octopus = {
         // Initialize the view
         dogListView.init();
         dogView.init();
+        adminView.init();
+        adminView.hide();
     },
 
     getCurrentDog: function () {
@@ -63,11 +66,89 @@ var octopus = {
     addToCounter: function() {
         model.currentDog.clickCount++;
         dogView.render();
+    },
+
+    // Open the admin form
+    openAdmin: function() {
+        if (model.adminShow === false) {
+            model.adminShow = true;
+            adminView.show();
+        }
+
+        else if (model.admin === true) {
+            model.admin = false;
+            adminView.hide();
+        }
+    },
+
+    closeAdmin: function() {
+        adminView.hide();
+    },
+
+    updateAdmin: function() {
+        model.currentDog = {
+            name : form.inputName.value,
+            clickCount: form.inputCliks.value,
+            img: inputUrl.value,
+        };
+
+        dogView.render();
+        dogListView.render();
+        adminView.hide();
     }
 
 };
 
 /*--------------View-------------*/
+
+var adminView = {
+    init: function() {
+
+        // Get value from the DOM element
+        this.inputName = document.getElementById('input_name');
+        this.inputUrl = document.getElementById('input_url');
+        this.inputCliks = document.getElementById('input_clicks');
+
+        this.adminBtn = document.getElementById('adminBtn');
+        this.adminSave = document.getElementById('adminSave');
+        this.adminCancel = document.getElementById('adminCancel');
+
+
+        // Display the DOM form when admin btn Admin is clicked
+        this.adminBtn.addEventListener('click', function() {
+            octopus.openAdmin();
+        });
+
+        // Hide the DOM form when cancel btn is clicked
+        this.adminCancel.addEventListener('click', function() {
+            octopus.closeAdmin();
+        });
+
+        // Save the changes made is the DOM form when save btn is clicked
+        this.adminSave.addEventListener('click', function() {
+            octopus.updateAdmin();
+        });
+
+        this.render();
+    },
+
+    render: function() {
+        var currentDog = octopus.getCurrentDog();
+        this.inputName.value = currentDog.name;
+        this.inputUrl.value = currentDog.img;
+        this.inputCliks.value = currentDog.clickCount;
+    },
+
+    show: function(){
+        var adminForm =document.getElementById('admin_form');
+        adminForm.style.display = 'block';
+        },
+
+    hide: function(){
+        var adminForm =document.getElementById('admin_form');
+        adminForm.style.display = 'none';
+    }
+};
 
 var dogView = {
     init: function() {
@@ -89,11 +170,10 @@ var dogView = {
     render: function() {
         // Update the DOM element with their values
         var currentDog = octopus.getCurrentDog();
-        this.dogCount.textContent = currentDog.clickCount;
+        this.dogCount.textContent = "Clicked "+currentDog.clickCount+" times";
         this.dogName.textContent = currentDog.name;
         this.dogImage.src = currentDog.img;
     }
-
 };
 
 var dogListView = {
@@ -117,6 +197,7 @@ var dogListView = {
 
             // Create <li> element in the DOM
             elem = document.createElement('li');
+            elem.className = 'list';
             // Append the name of the dog to the <li>
             elem.textContent = dog.name;
             // When a dog is clicked, it set the current dog and display it.
