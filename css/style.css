@@ -27,6 +27,16 @@ ul {
     border: 1px solid #555;
 }
 
+.list:hover {
+    background-color: #fff;
+    transition: transform 0.5s;
+}
+
 #dog_count {
     padding: 10px 0;
+}
+
+#dog_img:hover {
+    transform: scale(1.05);
+    transition: transform 0.5s;
 }
