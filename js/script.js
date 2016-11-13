@@ -68,7 +68,7 @@ var octopus = {
         dogView.render();
     },
 
-    // Open the admin form
+    // Show the admin form
     openAdmin: function() {
         if (model.adminShow === false) {
             model.adminShow = true;
@@ -81,17 +81,16 @@ var octopus = {
         }
     },
 
+    // Hide the admin form
     closeAdmin: function() {
         adminView.hide();
     },
 
+    // Save the new informations of a dog
     updateAdmin: function() {
-        model.currentDog = {
-            name : form.inputName.value,
-            clickCount: form.inputCliks.value,
-            img: inputUrl.value,
-        };
-
+        model.currentDog.name = input_name.value;
+        model.currentDog.clickCount = input_clicks.value;
+        model.currentDog.img = input_url.value;
         dogView.render();
         dogListView.render();
         adminView.hide();
@@ -113,7 +112,6 @@ var adminView = {
         this.adminSave = document.getElementById('adminSave');
         this.adminCancel = document.getElementById('adminCancel');
 
-
         // Display the DOM form when admin btn Admin is clicked
         this.adminBtn.addEventListener('click', function() {
             octopus.openAdmin();
@@ -125,7 +123,8 @@ var adminView = {
         });
 
         // Save the changes made is the DOM form when save btn is clicked
-        this.adminSave.addEventListener('click', function() {
+        this.adminSave.addEventListener('click', function(e) {
+            e.preventDefault();
             octopus.updateAdmin();
         });
 
@@ -139,11 +138,13 @@ var adminView = {
         this.inputCliks.value = currentDog.clickCount;
     },
 
+    // Show the admin form
     show: function(){
         var adminForm =document.getElementById('admin_form');
         adminForm.style.display = 'block';
-        },
+    },
 
+    // Hide the admin form
     hide: function(){
         var adminForm =document.getElementById('admin_form');
         adminForm.style.display = 'none';
@@ -206,6 +207,7 @@ var dogListView = {
                 return function() {
                     octopus.setCurrentDog(dogCopy);
                     dogView.render();
+                    adminView.render();
                 };
             })(dog));
             // Add the element to the <li>
